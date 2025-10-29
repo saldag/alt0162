@@ -87,6 +87,19 @@ Night mode uses a dark background rather than simple color inversion:
 
 ---
 
+## Layout
+
+### Bottom-Anchored Design
+The main page uses a bottom-anchored layout with auto-scroll:
+- Content sits at the bottom of the viewport
+- Uses flexbox: `display: flex; flex-direction: column; justify-content: flex-end`
+- `min-height: 100vh` ensures full viewport coverage
+- Content grows upward as more elements are added
+- Horizontally centered with `max-width` and `margin: 0 auto`
+- **Auto-scrolls to bottom on page load** using `window.scrollTo()` to ensure viewport starts at bottom
+
+---
+
 ## Future Enhancements
 - Consider adding more sound variations
 - Possibly integrate actual retro sound files (ICQ, AOL, etc.)

@@ -8,8 +8,12 @@
         body {
             font-family: Arial, sans-serif;
             max-width: 1000px;
-            margin: 50px auto;
+            margin: 0 auto;
             padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
         }
         h1 {
             text-align: center;
@@ -283,6 +287,11 @@
     </div>
 
     <script>
+        // Auto-scroll to bottom on page load
+        window.addEventListener('load', function() {
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
         const overlay = document.getElementById('fullscreenOverlay');
         const fullscreenCent = document.getElementById('fullscreenCent');
         const centDisplays = document.querySelectorAll('.cent-display');
