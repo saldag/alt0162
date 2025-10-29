@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alt0162 - Cent Sign</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .info {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .info-row {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .font-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .font-sample {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .font-sample:hover {
+            border-color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .cent-display {
+            font-size: 100px;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+        .font-name {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .cent-display {
+            cursor: pointer;
+        }
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        .fullscreen-overlay.active {
+            display: flex;
+        }
+        .fullscreen-cent {
+            font-size: 300px;
+            color: #2c3e50;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        .random-decoration {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            animation: fadeIn 0.3s ease-in;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .close-hint {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        .fullscreen-overlay.active .close-hint {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alt0162 - Cent Sign Font Comparison</h1>
+
+    <div class="info">
+        <div class="info-row">
+            <span class="label">Character:</span> ¢ (Cent Sign)
+        </div>
+        <div class="info-row">
+            <span class="label">Unicode:</span> U+00A2
+        </div>
+        <div class="info-row">
+            <span class="label">HTML Entity:</span> &amp;cent; or &amp;#162;
+        </div>
+        <div class="info-row">
+            <span class="label">Alt Code:</span> Alt+0162
+        </div>
+    </div>
+
+    <div class="font-comparison">
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: Arial;">¢</div>
+            <div class="font-name">Arial</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: 'Courier New', monospace;">¢</div>
+            <div class="font-name">Courier New</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: 'Times New Roman', serif;">¢</div>
+            <div class="font-name">Times New Roman</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: Georgia, serif;">¢</div>
+            <div class="font-name">Georgia</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: Verdana, sans-serif;">¢</div>
+            <div class="font-name">Verdana</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: 'Trebuchet MS', sans-serif;">¢</div>
+            <div class="font-name">Trebuchet MS</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: Helvetica, sans-serif;">¢</div>
+            <div class="font-name">Helvetica</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: Tahoma, sans-serif;">¢</div>
+            <div class="font-name">Tahoma</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: 'Comic Sans MS', cursive;">¢</div>
+            <div class="font-name">Comic Sans MS</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: Impact, sans-serif;">¢</div>
+            <div class="font-name">Impact</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: 'Lucida Console', monospace;">¢</div>
+            <div class="font-name">Lucida Console</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: Palatino, serif;">¢</div>
+            <div class="font-name">Palatino</div>
+        </div>
+        <div class="font-sample">
+            <div class="cent-display" style="font-family: 'Bookman Old Style', serif;">¢</div>
+            <div class="font-name">Bookman Old Style</div>
+        </div>
+    </div>
+
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <div class="fullscreen-cent" id="fullscreenCent">¢</div>
+        <div class="close-hint">Press ESC to return</div>
+    </div>
+
+    <script>
+        const overlay = document.getElementById('fullscreenOverlay');
+        const fullscreenCent = document.getElementById('fullscreenCent');
+        const centDisplays = document.querySelectorAll('.cent-display');
+
+        // Create AudioContext for generating sounds
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Function to play a tone
+        function playTone(frequency, duration, type = 'sine') {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        // Different sound patterns for each click
+        const soundPatterns = [
+            () => playTone(800, 0.1), // Beep 1
+            () => { playTone(523, 0.15); setTimeout(() => playTone(659, 0.15), 150); }, // Two notes
+            () => playTone(440, 0.2), // Lower beep
+            () => playTone(880, 0.1, 'square'), // Square wave
+            () => { playTone(659, 0.1); setTimeout(() => playTone(523, 0.1), 100); }, // Descending
+            () => playTone(1046, 0.15), // High C
+            () => playTone(293, 0.2, 'triangle'), // Low triangle
+            () => { playTone(392, 0.1); setTimeout(() => playTone(523, 0.1), 100); setTimeout(() => playTone(659, 0.1), 200); }, // Ascending
+            () => playTone(587, 0.15), // D
+            () => playTone(740, 0.1, 'sawtooth'), // Sawtooth
+            () => playTone(494, 0.2), // B
+            () => { playTone(1046, 0.05); setTimeout(() => playTone(1046, 0.05), 100); }, // Double beep
+            () => playTone(330, 0.25), // Low E
+            () => playTone(988, 0.1), // B high
+            () => { playTone(523, 0.1); setTimeout(() => playTone(659, 0.1), 100); setTimeout(() => playTone(784, 0.1), 200); }, // C-E-G chord
+            () => playTone(622, 0.15, 'square'), // D# square
+            () => playTone(440, 0.1, 'triangle'), // A triangle
+            () => { playTone(880, 0.1); setTimeout(() => playTone(440, 0.1), 150); }, // Octave jump
+            () => playTone(1175, 0.1), // D high
+            () => playTone(349, 0.2), // F
+            () => { playTone(659, 0.05); setTimeout(() => playTone(784, 0.05), 75); setTimeout(() => playTone(880, 0.05), 150); } // Fast ascending
+        ];
+
+        // Random emojis and ASCII patterns
+        const decorations = [
+            '✨', '⭐', '💫', '🌟', '💰', '💵', '💴', '💶', '💷', '🪙',
+            '♠', '♣', '♥', '♦', '★', '☆', '●', '○', '◆', '◇',
+            '▲', '▼', '◄', '►', '■', '□', '※', '⌘', '♪', '♫',
+            '¢', '$', '€', '£', '¥', '₩', '₽', '฿'
+        ];
+
+        // Simple ASCII art patterns
+        const asciiPatterns = [
+            `(ツ)`,
+            `¯\\_(ツ)_/¯`,
+            `(•‿•)`,
+            `(◕‿◕)`,
+            `ʕ•ᴥ•ʔ`,
+            `(╯°□°)╯︵ ┻━┻`,
+            `┬─┬ノ( º _ ºノ)`,
+            `(☞ﾟヮﾟ)☞`,
+            `☜(ﾟヮﾟ☜)`,
+            `( ͡° ͜ʖ ͡°)`,
+            `ಠ_ಠ`,
+            `♪┏(･o･)┛♪`,
+            `(づ￣ ³￣)づ`,
+            `(੭ˊ͈ ꒵ˋ͈)੭̸*✧⁺˚`,
+            `¢€$¥£`,
+            `$$$$`,
+            `¢¢¢¢`,
+        ];
+
+        // Golden angle for Fibonacci spiral distribution
+        const goldenAngle = 137.508 * (Math.PI / 180);
+        let clickCount = 0;
+
+        centDisplays.forEach(display => {
+            display.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const fontFamily = window.getComputedStyle(this).fontFamily;
+                fullscreenCent.style.fontFamily = fontFamily;
+                overlay.classList.add('active');
+                clickCount = 0; // Reset the spiral when entering fullscreen
+
+                // Resume audio context if needed (browser autoplay policy)
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            });
+        });
+
+        overlay.addEventListener('click', function(e) {
+            let x, y;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            // After 15 clicks, allow anywhere on screen
+            if (clickCount > 15) {
+                x = Math.random() * window.innerWidth;
+                y = Math.random() * window.innerHeight;
+            } else {
+                // For first 15 clicks, keep outside the cent sign
+                const minRadius = 200;
+                const maxRadius = Math.min(window.innerWidth, window.innerHeight) / 2;
+
+                // Random angle
+                const angle = Math.random() * 2 * Math.PI;
+                // Random radius between min and max
+                const radius = minRadius + Math.random() * (maxRadius - minRadius);
+
+                // Convert polar to cartesian, centered on screen
+                x = centerX + radius * Math.cos(angle);
+                y = centerY + radius * Math.sin(angle);
+            }
+
+            // Add random decoration at calculated position
+            const decoration = document.createElement('div');
+            decoration.className = 'random-decoration';
+
+            // 25% chance to use ASCII pattern instead of single symbol
+            const useAsciiPattern = Math.random() < 0.25;
+
+            if (useAsciiPattern) {
+                decoration.textContent = asciiPatterns[Math.floor(Math.random() * asciiPatterns.length)];
+                decoration.style.whiteSpace = 'pre'; // Preserve whitespace for ASCII art
+            } else {
+                decoration.textContent = decorations[Math.floor(Math.random() * decorations.length)];
+            }
+
+            decoration.style.left = Math.max(0, Math.min(x, window.innerWidth - 100)) + 'px';
+            decoration.style.top = Math.max(0, Math.min(y, window.innerHeight - 50)) + 'px';
+
+            // Add size variation (16px to 36px, with most around 24px)
+            const size = 18 + Math.random() * 18; // Random size between 18-36px
+            decoration.style.fontSize = size + 'px';
+
+            // First 8 decorations are always black
+            if (clickCount < 8) {
+                decoration.style.color = '#000000';
+            }
+
+            overlay.appendChild(decoration);
+
+            // Play sound - cycle through all sound patterns
+            const soundIndex = clickCount % soundPatterns.length;
+            soundPatterns[soundIndex]();
+
+            clickCount++;
+        });
+
+        // Close overlay with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                overlay.classList.remove('active');
+                // Remove all decorations
+                const decorations = overlay.querySelectorAll('.random-decoration');
+                decorations.forEach(d => d.remove());
+                clickCount = 0;
+            }
+        });
+    </script>
+</body>
+</html>
