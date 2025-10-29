@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Alt0162 - Cent Sign</title>
     <style>
         body {
@@ -508,6 +511,11 @@
         });
 
         overlay.addEventListener('click', function(e) {
+            // Ensure audio context is running
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
             // Get actual click coordinates
             const clickX = e.clientX;
             const clickY = e.clientY;
@@ -598,8 +606,8 @@
 
             // Add size variation - responsive for mobile
             const isMobile = window.innerWidth <= 768;
-            const baseSize = isMobile ? 12 : 18;
-            const randomRange = isMobile ? 12 : 18;
+            const baseSize = isMobile ? 20 : 18;
+            const randomRange = isMobile ? 20 : 18;
             const size = baseSize + Math.random() * randomRange;
             decoration.style.fontSize = size + 'px';
 
