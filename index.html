@@ -220,6 +220,13 @@
                 color: #aaaaaa;
             }
         }
+
+        /* Mobile responsive sizing */
+        @media (max-width: 768px) {
+            .fullscreen-cent {
+                font-size: min(50vw, 200px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -490,8 +497,11 @@
             decoration.style.left = Math.max(0, Math.min(x, window.innerWidth - 100)) + 'px';
             decoration.style.top = Math.max(0, Math.min(y, window.innerHeight - 50)) + 'px';
 
-            // Add size variation (16px to 36px, with most around 24px)
-            const size = 18 + Math.random() * 18; // Random size between 18-36px
+            // Add size variation - responsive for mobile
+            const isMobile = window.innerWidth <= 768;
+            const baseSize = isMobile ? 12 : 18;
+            const randomRange = isMobile ? 12 : 18;
+            const size = baseSize + Math.random() * randomRange;
             decoration.style.fontSize = size + 'px';
 
             // First 8 decorations form initial ring (black in day mode, white in night mode)
