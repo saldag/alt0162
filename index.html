@@ -431,6 +431,24 @@
         const goldenAngle = 137.508 * (Math.PI / 180);
         let clickCount = 0;
 
+        // Gravitational clustering constants
+        const DRIFT_CEILING_MIN = 2; // Minimum clicks before drift
+        const DRIFT_CEILING_MAX = 12; // Maximum clicks before drift
+        const PULL_INCREMENT = 0.12; // How much pull increases per click
+        const PULL_MAX = 0.70; // Maximum pull strength (0.90 = 90%)
+        const POSITION_THRESHOLD = 50; // px - how close clicks need to be to count as "same position"
+
+        // Helper function for random drift ceiling
+        const randomDriftCeiling = () => DRIFT_CEILING_MIN + Math.floor(Math.random() * (DRIFT_CEILING_MAX - DRIFT_CEILING_MIN + 1));
+
+        // Gravitational clustering by click position
+        let lastClickX = null;
+        let lastClickY = null;
+        let targetX = null; // Gravitational focal point (can drift from click position)
+        let targetY = null;
+        let positionClickCount = 0;
+        let maxPositionClicks = randomDriftCeiling();
+
         centDisplays.forEach(display => {
             display.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -438,6 +456,14 @@
                 fullscreenCent.style.fontFamily = fontFamily;
                 overlay.classList.add('active');
                 clickCount = 0; // Reset the spiral when entering fullscreen
+
+                // Reset gravitational clustering
+                lastClickX = null;
+                lastClickY = null;
+                targetX = null;
+                targetY = null;
+                positionClickCount = 0;
+                maxPositionClicks = randomDriftCeiling();
 
                 // Auto-enable night mode based on system preference
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -457,14 +483,55 @@
         });
 
         overlay.addEventListener('click', function(e) {
-            let x, y;
+            // Get actual click coordinates
+            const clickX = e.clientX;
+            const clickY = e.clientY;
+
+            // Initialize target on first click
+            if (targetX === null || targetY === null) {
+                targetX = clickX;
+                targetY = clickY;
+            }
+
+            // Check if click is near last position
+            if (lastClickX !== null && lastClickY !== null) {
+                const distance = Math.sqrt(
+                    Math.pow(clickX - lastClickX, 2) +
+                    Math.pow(clickY - lastClickY, 2)
+                );
+
+                if (distance <= POSITION_THRESHOLD) {
+                    positionClickCount++;
+                    // Check if reached max, pick random drift target
+                    if (positionClickCount >= maxPositionClicks) {
+                        positionClickCount = 0;
+                        maxPositionClicks = randomDriftCeiling();
+                        // Drift to random position
+                        targetX = Math.random() * window.innerWidth;
+                        targetY = Math.random() * window.innerHeight;
+                    }
+                } else {
+                    // Moved to new position, reset and target new click position
+                    positionClickCount = 0;
+                    maxPositionClicks = randomDriftCeiling();
+                    targetX = clickX;
+                    targetY = clickY;
+                }
+            }
+
+            // Update last position
+            lastClickX = clickX;
+            lastClickY = clickY;
+
+            // Calculate base position (random or ring)
+            let baseX, baseY;
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
 
             // After 15 clicks, allow anywhere on screen
             if (clickCount > 15) {
-                x = Math.random() * window.innerWidth;
-                y = Math.random() * window.innerHeight;
+                baseX = Math.random() * window.innerWidth;
+                baseY = Math.random() * window.innerHeight;
             } else {
                 // For first 15 clicks, keep outside the cent sign
                 const minRadius = 200;
@@ -476,9 +543,16 @@
                 const radius = minRadius + Math.random() * (maxRadius - minRadius);
 
                 // Convert polar to cartesian, centered on screen
-                x = centerX + radius * Math.cos(angle);
-                y = centerY + radius * Math.sin(angle);
+                baseX = centerX + radius * Math.cos(angle);
+                baseY = centerY + radius * Math.sin(angle);
             }
+
+            // Apply gravitational pull toward target position (can drift from click)
+            const pullStrength = Math.min(PULL_MAX, positionClickCount * PULL_INCREMENT);
+
+            // Blend between base random position and target position
+            const x = baseX * (1 - pullStrength) + targetX * pullStrength;
+            const y = baseY * (1 - pullStrength) + targetY * pullStrength;
 
             // Add random decoration at calculated position
             const decoration = document.createElement('div');
@@ -526,6 +600,13 @@
                 const decorations = overlay.querySelectorAll('.random-decoration');
                 decorations.forEach(d => d.remove());
                 clickCount = 0;
+                // Reset gravitational clustering
+                lastClickX = null;
+                lastClickY = null;
+                targetX = null;
+                targetY = null;
+                positionClickCount = 0;
+                maxPositionClicks = randomDriftCeiling();
             }
         });
 
@@ -538,6 +619,13 @@
             const decorations = overlay.querySelectorAll('.random-decoration');
             decorations.forEach(d => d.remove());
             clickCount = 0;
+            // Reset gravitational clustering
+            lastClickX = null;
+            lastClickY = null;
+            targetX = null;
+            targetY = null;
+            positionClickCount = 0;
+            maxPositionClicks = randomDriftCeiling();
         });
 
         // Night mode toggle
