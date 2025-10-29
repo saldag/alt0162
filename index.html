@@ -18,6 +18,11 @@
             flex-direction: column;
             justify-content: flex-end;
         }
+        body.no-scroll {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
         h1 {
             text-align: center;
         }
@@ -483,6 +488,7 @@
                 const fontFamily = window.getComputedStyle(this).fontFamily;
                 fullscreenCent.style.fontFamily = fontFamily;
                 overlay.classList.add('active');
+                document.body.classList.add('no-scroll');
                 clickCount = 0; // Reset the spiral when entering fullscreen
 
                 // Reset gravitational clustering
@@ -629,6 +635,7 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && overlay.classList.contains('active')) {
                 overlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
                 // Remove all decorations
                 const decorations = overlay.querySelectorAll('.random-decoration');
                 decorations.forEach(d => d.remove());
@@ -648,6 +655,7 @@
         closeHint.addEventListener('click', function(e) {
             e.stopPropagation(); // Don't trigger decoration creation
             overlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
             // Remove all decorations
             const decorations = overlay.querySelectorAll('.random-decoration');
             decorations.forEach(d => d.remove());
