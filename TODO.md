@@ -9,16 +9,10 @@
 **Fix applied:** Removed the `if (e.target === fullscreenCent) return;` check so clicks anywhere in the fullscreen overlay (including on the cent sign itself) now create decorations and play sounds.
 
 ### 2. Safari initialization issue on Mac
-**Status:** Under investigation
-**Description:** There's an initialization problem when running the page in Safari on Mac. Details TBD.
+**Status:** ✅ Fixed
+**Description:** There was an initialization problem when running the page in Safari on Mac.
 
-**Possible causes:**
-- AudioContext not starting until user interaction
-- Safari's stricter autoplay policies
-- Timing issues with audio initialization
-- Need to explicitly resume AudioContext after user gesture
-
-**Code location:** Around line 283-286 in index.html where AudioContext is resumed
+**Fix applied:** The AudioContext resume code added on fullscreen entry (checking `audioContext.state === 'suspended'` and calling `audioContext.resume()`) resolved Safari's stricter autoplay policies. Safari now properly initializes audio on user interaction.
 
 ---
 
