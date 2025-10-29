@@ -364,14 +364,33 @@
             () => { playTone(659, 0.05); setTimeout(() => playTone(784, 0.05), 75); setTimeout(() => playTone(880, 0.05), 150); } // Fast ascending
         ];
 
-        // Random emojis and ASCII patterns
-        const decorations = [
+        // Seasonal symbols by season
+        const seasonalSymbols = {
+            winter: ['❄️', '⛄', '☃️', '🎄', '🎅', '🎁', '🔔', '⛷️', '🏂', '🧊'],
+            spring: ['🌸', '🌼', '🌷', '🌺', '🐣', '🌱', '🦋', '🐝', '🌻', '🌹'],
+            summer: ['☀️', '🏖️', '🌴', '🏄', '🍉', '🍦', '🕶️', '🌊', '⛱️', '🐚'],
+            fall: ['🍂', '🍁', '🎃', '👻', '🦇', '🕷️', '💀', '🌙', '🕸️', '🧙', '🦴', '🧛', '🧟', '🔮']
+        };
+
+        // Get current season based on month (0-11)
+        const getCurrentSeason = () => {
+            const month = new Date().getMonth();
+            if (month >= 2 && month <= 4) return 'spring';  // Mar, Apr, May
+            if (month >= 5 && month <= 7) return 'summer';  // Jun, Jul, Aug
+            if (month >= 8 && month <= 10) return 'fall';   // Sep, Oct, Nov
+            return 'winter';  // Dec, Jan, Feb
+        };
+
+        // Base decorations (non-seasonal)
+        const baseDecorations = [
             '✨', '⭐', '💫', '🌟', '💰', '💵', '💴', '💶', '💷', '🪙',
             '♠', '♣', '♥', '♦', '★', '☆', '●', '○', '◆', '◇',
             '▲', '▼', '◄', '►', '■', '□', '※', '⌘', '♪', '♫',
             '¢', '$', '€', '£', '¥', '₩', '₽', '฿',
             // More emoji (category 3 - middle amount)
-            '🌙', '☀️', '🎮', '💻', '📱', '⌚', '🎵', '🎨', '🎭', '🔮',
+            '🌙', '🎮', '💻', '📱', '⌚', '🎵', '🎨', '🎭', '🔮',
+            '🎲', '🎯', '🎪', '🎬', '🎤', '🎧', '📺', '📻', '📡', '🔔',
+            '⚡', '🔥', '💧', '🌊', '🌈', '💎', '💾', '❓', '❗', '🔑',
             // Unicode symbols (category 1 - just a little more)
             '→', '←', '↑', '↓', '∞', '≈',
             // Mathematical symbols (iconic ones)
@@ -380,6 +399,9 @@
             '█', '▓', '▒', '░', '☺', '☻', '♀', '♂',
             '☼', '↕', '‼', '¶', '§', '▬', '↨', '∟', '↔', '◊', '☢', '☣'
         ];
+
+        // Combine base decorations with current season
+        const decorations = [...baseDecorations, ...seasonalSymbols[getCurrentSeason()]];
 
         // Simple ASCII art patterns (category 2 - more)
         const asciiPatterns = [
