@@ -124,6 +124,7 @@
             font-size: 24px;
             pointer-events: none;
             animation: fadeIn 0.3s ease-in;
+            color: #2c3e50;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0); }
@@ -133,45 +134,59 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 14px;
+            background: radial-gradient(circle, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 70%, transparent 100%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+        .close-hint:hover {
+            background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 70%, transparent 100%);
+            opacity: 0.8;
         }
         .fullscreen-overlay.active .close-hint {
-            display: block;
+            display: flex;
         }
         .night-mode .close-hint {
-            background-color: rgba(255,255,255,0.2);
-            color: #e0e0e0;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 70%, transparent 100%);
+        }
+        .night-mode .close-hint:hover {
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 70%, transparent 100%);
         }
         .night-mode-toggle {
             position: fixed;
             top: 20px;
             left: 20px;
-            background-color: rgba(0,0,0,0.7);
-            color: white;
+            background: radial-gradient(ellipse, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 70%, transparent 100%);
+            color: rgba(255,255,255,0.6);
             padding: 10px 15px;
-            border-radius: 5px;
+            border-radius: 20px;
             font-size: 14px;
             display: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            opacity: 0.5;
         }
         .night-mode-toggle:hover {
-            background-color: rgba(0,0,0,0.9);
+            background: radial-gradient(ellipse, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 70%, transparent 100%);
+            color: rgba(255,255,255,0.9);
+            opacity: 0.8;
         }
         .fullscreen-overlay.active .night-mode-toggle {
             display: block;
         }
         .night-mode .night-mode-toggle {
-            background-color: rgba(255,255,255,0.2);
-            color: #e0e0e0;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 70%, transparent 100%);
+            color: rgba(0,0,0,0.6);
         }
         .night-mode .night-mode-toggle:hover {
-            background-color: rgba(255,255,255,0.3);
+            background: radial-gradient(ellipse, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 70%, transparent 100%);
+            color: rgba(0,0,0,0.9);
         }
 
         /* Dark mode for main page - auto-detects system preference */
@@ -282,7 +297,7 @@
 
     <div class="fullscreen-overlay" id="fullscreenOverlay">
         <div class="fullscreen-cent" id="fullscreenCent">¢</div>
-        <div class="close-hint">Press ESC to return</div>
+        <div class="close-hint selectable" id="closeHint"></div>
         <div class="night-mode-toggle selectable" id="nightModeToggle">Night Mode</div>
     </div>
 
@@ -468,6 +483,17 @@
                 decorations.forEach(d => d.remove());
                 clickCount = 0;
             }
+        });
+
+        // Close button
+        const closeHint = document.getElementById('closeHint');
+        closeHint.addEventListener('click', function(e) {
+            e.stopPropagation(); // Don't trigger decoration creation
+            overlay.classList.remove('active');
+            // Remove all decorations
+            const decorations = overlay.querySelectorAll('.random-decoration');
+            decorations.forEach(d => d.remove());
+            clickCount = 0;
         });
 
         // Night mode toggle
