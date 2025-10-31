@@ -287,58 +287,58 @@
         <div class="hint-text">Click any ¢ below to explore</div>
     </div>
 
-    <div class="font-comparison">
-        <div class="font-sample">
+    <div class="font-comparison" id="fontComparison">
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: Arial;">¢</div>
             <div class="font-name">Arial</div>
         </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: 'Courier New', monospace;">¢</div>
             <div class="font-name">Courier New</div>
         </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: 'Times New Roman', serif;">¢</div>
             <div class="font-name">Times New Roman</div>
         </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: Georgia, serif;">¢</div>
             <div class="font-name">Georgia</div>
         </div>
-        <div class="font-sample">
-            <div class="cent-display" style="font-family: Verdana, sans-serif;">¢</div>
-            <div class="font-name">Verdana</div>
+        <div class="font-sample" draggable="true">
+            <div class="cent-display" style="font-family: 'Bookman Old Style', 'Libre Baskerville', serif;">¢</div>
+            <div class="font-name">Bookman Old School</div>
         </div>
-        <div class="font-sample">
-            <div class="cent-display" style="font-family: 'Trebuchet MS', sans-serif;">¢</div>
-            <div class="font-name">Trebuchet MS</div>
-        </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: Helvetica, sans-serif;">¢</div>
             <div class="font-name">Helvetica</div>
         </div>
-        <div class="font-sample">
-            <div class="cent-display" style="font-family: Tahoma, sans-serif;">¢</div>
-            <div class="font-name">Tahoma</div>
+        <div class="font-sample" draggable="true">
+            <div class="cent-display" style="font-family: Verdana, sans-serif;">¢</div>
+            <div class="font-name">Verdana</div>
         </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
+            <div class="cent-display" style="font-family: 'Trebuchet MS', sans-serif;">¢</div>
+            <div class="font-name">Trebuchet MS</div>
+        </div>
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: 'Comic Sans MS', cursive;">¢</div>
             <div class="font-name">Comic Sans MS</div>
         </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
+            <div class="cent-display" style="font-family: Tahoma, sans-serif;">¢</div>
+            <div class="font-name">Tahoma</div>
+        </div>
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: Impact, sans-serif;">¢</div>
             <div class="font-name">Impact</div>
         </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: 'Lucida Console', monospace;">¢</div>
             <div class="font-name">Lucida Console</div>
         </div>
-        <div class="font-sample">
+        <div class="font-sample" draggable="true">
             <div class="cent-display" style="font-family: Palatino, 'EB Garamond', serif;">¢</div>
             <div class="font-name">Palatino</div>
-        </div>
-        <div class="font-sample">
-            <div class="cent-display" style="font-family: 'Bookman Old Style', 'Libre Baskerville', serif;">¢</div>
-            <div class="font-name">Bookman Old School</div>
         </div>
     </div>
 
@@ -736,6 +736,54 @@
         };
         nightModeToggle.addEventListener('click', toggleHandler);
         nightModeToggle.addEventListener('touchend', toggleHandler);
+
+        // Drag and Drop functionality for font samples
+        const fontSamples = document.querySelectorAll('.font-sample');
+        let draggedElement = null;
+
+        fontSamples.forEach(sample => {
+            sample.addEventListener('dragstart', function(e) {
+                draggedElement = this;
+                this.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            sample.addEventListener('dragend', function(e) {
+                this.classList.remove('dragging');
+                fontSamples.forEach(s => s.classList.remove('drag-over'));
+            });
+
+            sample.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+
+                if (this !== draggedElement) {
+                    this.classList.add('drag-over');
+                }
+            });
+
+            sample.addEventListener('dragleave', function(e) {
+                this.classList.remove('drag-over');
+            });
+
+            sample.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+
+                if (this !== draggedElement) {
+                    const fontComparison = document.getElementById('fontComparison');
+                    const allSamples = [...fontComparison.children];
+                    const draggedIndex = allSamples.indexOf(draggedElement);
+                    const targetIndex = allSamples.indexOf(this);
+
+                    if (draggedIndex < targetIndex) {
+                        fontComparison.insertBefore(draggedElement, this.nextSibling);
+                    } else {
+                        fontComparison.insertBefore(draggedElement, this);
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
