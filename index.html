@@ -516,15 +516,23 @@
             });
         });
 
-        overlay.addEventListener('click', function(e) {
+        const handleInteraction = function(e) {
             // Ensure audio context is running
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
-            // Get actual click coordinates
-            const clickX = e.clientX;
-            const clickY = e.clientY;
+            // Get actual click/touch coordinates
+            let clickX, clickY;
+            if (e.type === 'touchstart' || e.type === 'touchend') {
+                e.preventDefault(); // Prevent scrolling and default touch behavior
+                const touch = e.touches[0] || e.changedTouches[0];
+                clickX = touch.clientX;
+                clickY = touch.clientY;
+            } else {
+                clickX = e.clientX;
+                clickY = e.clientY;
+            }
 
             // Initialize target on first click
             if (targetX === null || targetY === null) {
@@ -629,7 +637,11 @@
             soundPatterns[soundIndex]();
 
             clickCount++;
-        });
+        };
+
+        // Add event listeners for both mouse and touch
+        overlay.addEventListener('click', handleInteraction);
+        overlay.addEventListener('touchstart', handleInteraction);
 
         // Close overlay with ESC key
         document.addEventListener('keydown', function(e) {
