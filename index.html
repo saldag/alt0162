@@ -237,6 +237,18 @@
             .random-decoration {
                 font-size: 32px;
             }
+            .close-hint {
+                width: 44px;
+                height: 44px;
+                top: 15px;
+                right: 15px;
+            }
+            .night-mode-toggle {
+                padding: 12px 18px;
+                font-size: 16px;
+                top: 15px;
+                left: 15px;
+            }
         }
     </style>
 </head>
@@ -664,7 +676,8 @@
 
         // Close button
         const closeHint = document.getElementById('closeHint');
-        closeHint.addEventListener('click', function(e) {
+        const closeHandler = function(e) {
+            e.preventDefault();
             e.stopPropagation(); // Don't trigger decoration creation
             overlay.classList.remove('active');
             document.body.classList.remove('no-scroll');
@@ -679,11 +692,14 @@
             targetY = null;
             positionClickCount = 0;
             maxPositionClicks = randomDriftCeiling();
-        });
+        };
+        closeHint.addEventListener('click', closeHandler);
+        closeHint.addEventListener('touchend', closeHandler);
 
         // Night mode toggle
         const nightModeToggle = document.getElementById('nightModeToggle');
-        nightModeToggle.addEventListener('click', function(e) {
+        const toggleHandler = function(e) {
+            e.preventDefault();
             e.stopPropagation(); // Don't trigger decoration creation
             overlay.classList.toggle('night-mode');
 
@@ -693,7 +709,9 @@
             } else {
                 nightModeToggle.textContent = 'Night Mode';
             }
-        });
+        };
+        nightModeToggle.addEventListener('click', toggleHandler);
+        nightModeToggle.addEventListener('touchend', toggleHandler);
     </script>
 </body>
 </html>
